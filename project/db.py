@@ -4,7 +4,7 @@ def connect():
     con = sqlite3.connect('vehicle_db.db')
     return con 
 def VehicleTablesCreate():
-    sql = """CREATE TABLE IF NOT EXISTS notes(
+    sql = """CREATE TABLE IF NOT EXISTS vehicles(
         id integer primary key AUTOINCREMENT,
         number integer not null,
         type varchar(2000) not null,
@@ -30,7 +30,7 @@ class Vehicle:
 
 def createVehicle(cab):
     sql = """INSERT INTO vehicles(number, type,price_per_hour)
-    VALUES(?,?)"""
+    VALUES(?,?,?)"""
     params = (cab.number, cab.type,cab.price_per_hour)
     con = connect()
     cur = con.cursor()
@@ -76,7 +76,7 @@ def search(number, cabs_text):
 
 def updateVehicle(cab):
     sql = """UPDATE cabs
-    set number=?,cabs=?
+    set number=?,type=?,price_per_hour=?
     WHERE (id=?)"""
     params = (cab.number, cab.type,cab.price_per_hour,
               cab.id, )
@@ -96,13 +96,13 @@ def deleteVehicle(id):
     con.close()
     
 def readVehicleById(id):
-    sql = """SELECT id,number, type,price_per_hour FROM Vehicle
+    sql = """SELECT id,number, type,price_per_hour FROM cabs
     WHERE (id=?)"""
     params = (id,)
     con = connect()
     cur = con.cursor()
     response = cur.execute(sql,params)
-    result = response.fetchone() #row=[id,title,...]
+    result = response.fetchone() 
     con.close()
 
     if result != None:
