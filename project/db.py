@@ -102,7 +102,7 @@ def readVehicleById(id):
     con = connect()
     cur = con.cursor()
     response = cur.execute(sql,params)
-    result = response.fetchone() 
+    result = response.fetchone() #row=[id,title,...]
     con.close()
 
     if result != None:
